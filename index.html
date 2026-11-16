@@ -36,26 +36,92 @@ body{background:#ffffff;color:#1c1e21;}
 .loading-time{font-size:16px;font-weight:600;color:#1877f2;margin-top:8px;}
 
 /* === PROFILE PAGE === */
-.cover-container{width:100%;height:300px;background:#ffffff;position:relative;overflow:hidden;}
-.cover-photo{width:100%;height:100%;object-fit:cover;}
-
-.share-note{position:absolute;bottom:10px;left:10px;background:rgba(255,255,255,0.95);color:#1c1e21;padding:5px 12px;border-radius:20px;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.12);font-weight:500;}
-
-.camera-btn-cover{position:absolute;bottom:10px;right:10px;background:rgba(255,255,255,0.95);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.12);}
-.camera-btn-cover svg{width:18px;height:18px;fill:#65676b;}
-
-.profile-section{background:#ffffff;padding:0 16px 24px;position:relative;}
-.profile-header{display:flex;align-items:flex-end;gap:12px;margin-bottom:20px;position:relative;}
-.profile-pic-wrap{position:relative;margin-top:-40px;z-index:5;}
-.profile-pic{width:110px;height:110px;border-radius:50%;border:4px solid #ffffff;object-fit:cover;background:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.12);}
-
-.profile-info{padding-bottom:8px;}
-.profile-name{font-size:24px;font-weight:700;color:#1c1e21;line-height:1.2;}
-
-/* ===== FULL WIDTH BUTTONS ===== */
-.button-row{display:flex;flex-direction:column;gap:12px;margin:16px 0 0 0;}
-.btn-dashboard, .btn-create{
+.cover-container{
   width:100%;
+  height:300px;
+  background:#ffffff;
+  position:relative;
+  overflow:hidden;
+}
+.cover-photo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* === TINANGGAL NA ANG + ADD TO STORY SA LIKOD NG PROFILE === */
+.share-note{
+  display:none !important;
+}
+
+.camera-btn-cover{
+  position:absolute;
+  bottom:10px;
+  right:10px;
+  background:rgba(255,255,255,0.95);
+  border:none;
+  border-radius:50%;
+  width:32px;
+  height:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 1px 3px rgba(0,0,0,0.12);
+}
+.camera-btn-cover svg{
+  width:18px;
+  height:18px;
+  fill:#65676b;
+}
+
+.profile-section{
+  background:#ffffff;
+  padding:0 16px 24px;
+  position:relative;
+}
+.profile-header{
+  display:flex;
+  align-items:flex-end;
+  gap:12px;
+  margin-bottom:20px;
+  position:relative;
+}
+.profile-pic-wrap{
+  position:relative;
+  margin-top:-40px;
+  z-index:5;
+}
+.profile-pic{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  border:4px solid #ffffff;
+  object-fit:cover;
+  background:#ffffff;
+  box-shadow:0 1px 3px rgba(0,0,0,0.12);
+}
+
+.profile-info{
+  padding-bottom:8px;
+}
+.profile-name{
+  font-size:24px;
+  font-weight:700;
+  color:#1c1e21;
+  line-height:1.2;
+}
+
+/* === DASHBOARD + CREATE BUTTONS — LAKI, PANTAY SA SCREEN === */
+.button-row{
+  display:flex;
+  flex-direction:row;
+  gap:10px;
+  margin:16px 0 0 0;
+}
+.btn-dashboard, .btn-create{
+  flex:1 1 0;
+  min-width:0;
   padding:14px 16px;
   border:none;
   border-radius:6px;
@@ -67,14 +133,32 @@ body{background:#ffffff;color:#1c1e21;}
   justify-content:center;
   gap:8px;
 }
-.btn-dashboard{background:#0081FB;color:#fff;}
-.btn-dashboard:hover{background:#006edb;}
-.btn-dashboard svg{width:18px;height:18px;fill:white;}
-.btn-create{background:#e4e6eb;color:#1c1e21;}
-.btn-create:hover{background:#d8dadf;}
-.btn-create svg{width:20px;height:20px;fill:#1c1e21;}
+.btn-dashboard{
+  background:#0081FB;
+  color:#fff;
+}
+.btn-dashboard:hover{
+  background:#006edb;
+}
+.btn-dashboard svg{
+  width:18px;
+  height:18px;
+  fill:white;
+}
+.btn-create{
+  background:#e4e6eb;
+  color:#1c1e21;
+}
+.btn-create:hover{
+  background:#d8dadf;
+}
+.btn-create svg{
+  width:20px;
+  height:20px;
+  fill:#1c1e21;
+}
 
-/* === WHITE BACKGROUND EXTENDED TO BOTTOM === */
+/* === WHITE NA LIKOD — ISINAGAD PABABA === */
 .page-bottom{
   width:100%;
   min-height:calc(100vh - 460px);
@@ -120,7 +204,6 @@ const CONFIG = {
   <!-- COVER PHOTO -->
   <div class="cover-container">
     <img class="cover-photo" id="coverImg" src="" alt="Cover Photo">
-    <div class="share-note">+ Add to story</div>
     <button class="camera-btn-cover">
       <svg viewBox="0 0 24 24"><path d="M12 15.2c1.77 0 3.2-1.43 3.2-3.2S13.77 8.8 12 8.8 8.8 10.23 8.8 12s1.43 3.2 3.2 3.2zM9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"/></svg>
     </button>
@@ -137,7 +220,7 @@ const CONFIG = {
       </div>
     </div>
 
-    <!-- FULL WIDTH BUTTONS -->
+    <!-- DASHBOARD + CREATE BUTTONS -->
     <div class="button-row">
       <button class="btn-dashboard">
         <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zm0-8v2h14V9H7z"/></svg>
